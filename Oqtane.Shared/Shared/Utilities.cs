@@ -44,9 +44,10 @@ namespace Oqtane.Shared
             string querystring = "";
             string fragment = "";
 
+            if (!string.IsNullOrEmpty(path) && !path.StartsWith("/")) path = "/" + path;
+
             if (!string.IsNullOrEmpty(parameters))
             {
-                // parse parameters
                 (string urlparameters, querystring, fragment) = ParseParameters(parameters);
                 if (!string.IsNullOrEmpty(urlparameters))
                 {
@@ -149,6 +150,7 @@ namespace Oqtane.Shared
                     break;
                 case "render":
                     content = content.Replace(Constants.FileUrl, alias?.BaseUrl + aliasUrl + Constants.FileUrl);
+                    content = content.Replace("[wwwroot]", alias?.BaseUrl + aliasUrl + "/");
                     // legacy
                     content = content.Replace("[siteroot]", UrlCombine("Content", "Tenants", alias.TenantId.ToString(), "Sites", alias.SiteId.ToString()));
                     content = content.Replace(Constants.ContentUrl, alias.Path + Constants.ContentUrl);

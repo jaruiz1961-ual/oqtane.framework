@@ -101,6 +101,24 @@ namespace Oqtane.Models
             IsAuthorized = isAuthorized;
         }
 
+        public Permission Clone()
+        {
+            return new Permission
+            {
+                SiteId = SiteId,
+                EntityName = EntityName,
+                EntityId = EntityId,
+                PermissionName = PermissionName,
+                RoleName = RoleName,
+                UserId = UserId,
+                IsAuthorized = IsAuthorized,
+                CreatedBy = CreatedBy,
+                CreatedOn = CreatedOn,
+                ModifiedBy = ModifiedBy,
+                ModifiedOn = ModifiedOn
+            };
+        }
+
         [Obsolete("The Role property is deprecated", false)]
         [NotMapped]
         [JsonIgnore] // exclude from API payload

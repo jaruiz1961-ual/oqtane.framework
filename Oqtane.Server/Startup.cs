@@ -100,6 +100,7 @@ namespace Oqtane
                 options.Cookie.Name = Constants.AntiForgeryTokenCookieName;
                 options.Cookie.SameSite = SameSiteMode.Strict;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                options.Cookie.HttpOnly = true;
             });
 
             services.AddIdentityCore<IdentityUser>(options => { })
@@ -216,6 +217,7 @@ namespace Oqtane
             app.UseCors();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseAntiforgery();
 
             if (_useSwagger)
             {

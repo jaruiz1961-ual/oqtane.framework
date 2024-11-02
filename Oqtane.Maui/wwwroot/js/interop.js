@@ -1,11 +1,18 @@
 var Oqtane = Oqtane || {};
 
 Oqtane.Interop = {
-    setCookie: function (name, value, days) {
+    setCookie: function (name, value, days, secure, sameSite) {
         var d = new Date();
         d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
         var expires = "expires=" + d.toUTCString();
-        document.cookie = name + "=" + value + ";" + expires + ";path=/";
+        var cookieString = name + "=" + value + ";" + expires + ";path=/";
+        if (secure) {
+            cookieString += "; secure";
+        }
+        if (sameSite === "Lax" || sameSite === "Strict" || sameSite === "None") {
+            cookieString += "; SameSite=" + sameSite;
+        }
+        document.cookie = cookieString;
     },
     getCookie: function (name) {
         name = name + "=";
@@ -410,11 +417,20 @@ Oqtane.Interop = {
         }
     },
     scrollTo: function (top, left, behavior) {
-        window.scrollTo({
-            top: top,
-            left: left,
-            behavior: behavior
-        });
+        const modal = document.querySelector('.modal');
+        if (modal) {
+            modal.scrollTo({
+                top: top,
+                left: left,
+                behavior: behavior
+            });
+        } else {
+            window.scrollTo({
+                top: top,
+                left: left,
+                behavior: behavior
+            });
+        }
     },
     scrollToId: function (id) {
         var element = document.getElementById(id);
